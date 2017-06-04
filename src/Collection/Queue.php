@@ -1,6 +1,8 @@
 <?php
 
-namespace Entity;
+namespace Collection;
+
+use Entity\Message;
 
 /**
  * Class Queue
@@ -22,7 +24,7 @@ final class Queue extends \SplQueue
     }
 
     /**
-     * @param mixed $value
+     * @param Message $value
      */
     public function enqueue($value)
     {
