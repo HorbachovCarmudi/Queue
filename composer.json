@@ -9,7 +9,8 @@
     "psr-4": {
       "Entity\\": "src/Entity/",
       "Service\\": "src/Service/",
-      "Collection\\": "src/Collection/"
+      "Collection\\": "src/Collection/",
+      "Repository\\": "src/Repository/"
     }
   }
 }
