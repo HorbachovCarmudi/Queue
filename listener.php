@@ -15,12 +15,27 @@ $balancer = new LoadBalancer(
 
 $queue = new Queue(ConfigReader::get('queue_max_size'));
 $repo = new QueueFile(ConfigReader::get('queue_storage_filename'));
-$repo->get($queue);
 
-for ($i=0; $i<$queue->count();) {
-    $balancer->runMessage($queue->bottom());
-    $queue->dequeue();
-    $queue = $repo->put($queue);
+$simulateRunning = true;
+while ($simulateRunning) {
+    proceed($repo, $queue, $balancer);
+    sleep('1');
 }
 
-echo "\n" . 'No messages found' . "\n";
+function proceed(QueueFile $repo, Queue $queue, LoadBalancer $balancer) : int
+{
+    $count = 0;
+    $repo->get($queue);
+
+    while ($queue->count()) {
+        $balancer->runMessage($queue->bottom());
+        $count++;
+        $queue = $repo->dequeue($queue);
+
+        if (!$queue->count()) {
+            echo 'Switching to waiting mode after finishing ' . $count . ' messages' . "\n";
+        }
+    }
+
+    return $count;
+}

@@ -33,6 +33,16 @@ class Queue extends \SplQueue
         }
         parent::enqueue($value);
     }
+
+    /**
+     *
+     */
+    public function truncate()
+    {
+        while ($this->count()) {
+            $this->dequeue();
+        }
+    }
 }
 
 

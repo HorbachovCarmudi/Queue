@@ -48,9 +48,8 @@ class QueueFile
 
     /**
      * @param Queue $queue
-     * @return Queue
      */
-    public function put(Queue $queue) : Queue
+    public function put(Queue $queue)
     {
         $queueSize = $queue->count();
 
@@ -70,6 +69,26 @@ class QueueFile
         }
 
         $this->finishTransaction();
+    }
+
+    /**
+     * @param Queue $queue
+     * @return Queue
+     */
+    public function dequeue(Queue $queue) : Queue
+    {
+        /* @var $message Message*/
+        $message = $queue->bottom();
+
+        $queue->truncate();
+        $queue = $this->get($queue);
+
+        if ($queue->bottom()->getId() == $message->getId()) {
+            $queue->dequeue();
+            $this->put($queue);
+        }
+
+        $queue->truncate();
         return $this->get($queue);
     }
 
