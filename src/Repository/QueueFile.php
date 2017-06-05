@@ -44,7 +44,7 @@ class QueueFile
      */
     public function get(Queue $queue) : Queue
     {
-        $this->startTransaction('r');
+        $this->startTransaction('rb');
 
         while ($row = fgetcsv($this->storage)) {
             $message = $this->dependencyContainer->getMessage([$row[0], $row[1]]);
@@ -62,7 +62,7 @@ class QueueFile
     {
         $queueSize = $queue->count();
 
-        $this->startTransaction('w');
+        $this->startTransaction('wb');
 
         for ($i=0; $i<$queueSize; $i++) {
             /* @var $message Message*/
