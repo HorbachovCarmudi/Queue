@@ -4,6 +4,7 @@ namespace Repository;
 
 use Collection\Queue;
 use Entity\Message;
+use Service\DependencyContainer;
 
 /**
  * Class QueueFile
@@ -11,22 +12,32 @@ use Entity\Message;
  */
 class QueueFile
 {
+
+    /**
+     * @var DependencyContainer
+     */
+    private $dependencyContainer;
+
     /**
      * @var string
      */
     private $fileName;
+
     /**
      * @var Resource|null
      */
     private $storage;
 
+
     /**
-     * QueueFileRepository constructor.
-     * @param $fileName
+     * QueueFile constructor.
+     * @param string $fileName
+     * @param DependencyContainer $dependencyContainer
      */
-    public function __construct($fileName)
+    public function __construct(string $fileName, DependencyContainer $dependencyContainer)
     {
         $this->fileName = $fileName;
+        $this->dependencyContainer = $dependencyContainer;
     }
 
     /**
@@ -38,7 +49,7 @@ class QueueFile
         $this->startTransaction('r');
 
         while ($row = fgetcsv($this->storage)) {
-            $message = new Message($row[0], $row[1]);
+            $message = $this->dependencyContainer->getMessage([$row[0], $row[1]]);
             $queue->enqueue($message);
         }
 

@@ -5,6 +5,7 @@ use Repository\QueueFile;
 use Collection\Queue;
 use Entity\Message;
 use Service\ConfigReader;
+use Service\DependencyContainer;
 
 require_once('vendor/autoload.php');
 define('CONFIG_PATH', dirname(__FILE__) . '/app/config.ini');
@@ -16,7 +17,8 @@ if ($messagesToAdd < 1) {
 
 $producer = new Producer(
     new QueueFile(
-        ConfigReader::get('queue_storage_filename')
+        ConfigReader::get('queue_storage_filename'),
+        new DependencyContainer()
     ),
     new Queue(
         ConfigReader::get('queue_max_size')

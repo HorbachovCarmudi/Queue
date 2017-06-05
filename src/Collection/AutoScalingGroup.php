@@ -3,6 +3,7 @@
 namespace Collection;
 
 use Entity\Consumer;
+use Service\DependencyContainer;
 
 /**
  * Class ScaledGroup
@@ -21,12 +22,19 @@ class AutoScalingGroup
     private $maxSize;
 
     /**
-     * ScaledGroup constructor.
-     * @param int $maxSize
+     * @var DependencyContainer
      */
-    public function __construct(int $maxSize)
+    private $dependencyContainer;
+
+    /**
+     * AutoScalingGroup constructor.
+     * @param int $maxSize
+     * @param DependencyContainer $dependencyContainer
+     */
+    public function __construct(int $maxSize, DependencyContainer $dependencyContainer)
     {
         $this->maxSize = $maxSize;
+        $this->dependencyContainer = $dependencyContainer;
     }
 
     /**
@@ -57,7 +65,7 @@ class AutoScalingGroup
     private function addConsumer()
     {
         if (count($this->consumers) < $this->maxSize) {
-            $consumer = new Consumer(count($this->consumers));
+            $consumer = $this->dependencyContainer->getConsumer([count($this->consumers)]);
             $this->consumers[] = $consumer;
             return $consumer;
         }
