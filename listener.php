@@ -9,7 +9,7 @@ use Service\ConfigReader;
 require_once('vendor/autoload.php');
 define('CONFIG_PATH', dirname(__FILE__) . '/app/config.ini');
 
-Logger::configure('app/logger.xml');
+Logger::configure(ConfigReader::get('log_config'));
 
 $balancer = new LoadBalancer(
     new AutoScalingGroup(ConfigReader::get('scaled_group_max_size')),

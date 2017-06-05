@@ -2,6 +2,8 @@
 
 namespace Entity;
 
+use Logger;
+
 /**
  * Class Consumer
  * @package Entity
@@ -30,6 +32,7 @@ final class Consumer
     public function __construct(int $id)
     {
         $this->id = $id;
+        $this->logInfo('[I-' . $this->getId() . '] created');
     }
 
     /**
@@ -41,6 +44,11 @@ final class Consumer
         if ($this->checkIfFree()) {
             $this->willBeFreeAfter = time() + $message->getSecondsToExecute();
             $this->free = false;
+
+            $this->logInfo('[I-' .$this->getId() . '] started message ' . $message->getId()
+                . ', execution time: ' . $message->getSecondsToExecute() . ' seconds'
+            );
+
         } else {
             throw new \Exception('Try to proceed message on Busy Consumer');
         }
@@ -63,5 +71,14 @@ final class Consumer
             $this->free = true;
         }
         return $this->free;
+    }
+
+    private function logInfo($message)
+    {
+        Logger::getLogger('consumer')->info($message);
+    }
+
+    public function __destruct() {
+        $this->logInfo('[I-' . $this->getId() . '] destroyed');
     }
 }
