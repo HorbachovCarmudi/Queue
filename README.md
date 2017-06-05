@@ -26,10 +26,10 @@ Queue is saved into var/queue.csv file.
 It has limited size, that is set in app/config.ini. If size is exceeded, system loosing old messages.
 
 #### Auto Scaling Group
-Collection of Consumer instances, responsible for creation of new necessary instances and destroying unnecessary instances. Maximum number of instances is limited anc can be set in app/config.ini
+Collection of Consumer instances, responsible for creation of new necessary instances and destroying unnecessary instances. Maximum number of instances is limited and can be set in app/config.ini
 
 #### Consumer
-Entity for simulation of instance proceeding messages. Parallel instance simulation was done by setting the "instance will be busy till" date for instance proceeding message. One instance can proceed only one message in time.
+Entity for simulation of instance proceeding messages. Parallel instance simulation was done by setting the "instance will be busy till" date for Consumer which is proceeding message. One instance can proceed only one message in time.
 
 ### System Entry Points
 
@@ -40,7 +40,7 @@ Script for simulation of publishing messages to Queue via Producer. Can be run a
 Script for simulation of work Server with LoadBalancer. It runs continuously, checking if we have new messages in Queue and transfering them to LoadBalancer
 
 ### What is missed
-* integration test to cover services and repository
+* integration tests to cover services and repository
 * support of multiple queues (can be done by modification only in publisher.php and listener.php)
 
 ## Running Simulation
