@@ -17,6 +17,4 @@ final class MessageTest extends TestCase
         $this->assertEquals($testId, $message->getId());
         $this->assertEquals($testSeconds, $message->getSecondsToExecute());
     }
-
-
 }

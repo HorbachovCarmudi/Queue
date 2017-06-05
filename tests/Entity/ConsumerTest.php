@@ -47,6 +47,4 @@ final class ConsumerTest extends TestCase
         $consumer->proceed($message);
         $consumer->proceed($message);
     }
-
-
 }
