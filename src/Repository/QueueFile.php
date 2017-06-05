@@ -106,7 +106,7 @@ class QueueFile
      */
     private function startTransaction(string $flag)
     {
-        $this->storage = fopen($this->fileName, $flag);
+        $this->storage =  fopen($this->fileName, (file_exists($this->fileName)) ? $flag : 'w');
     }
 
     /**

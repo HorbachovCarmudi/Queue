@@ -4,7 +4,7 @@ I skipped not necessary part of the task, but consider that current solution not
 
 If desired solution should be distributed with separate docker containers created dynamically, it also can be done, in one week.
 
-Unfortunately, during this weekend I had no chance to check simulation running on other machines**, so if there are any troubles with checking it, don't hesitate to contact me.
+Unfortunately, during this weekend I had no chance to check simulation running on other machines, so if there are any troubles with checking it, don't hesitate to contact me.
 
 ## Solutuion Description
 In due to simulate a system of a producer and a group of auto-scaled consumers connected by a queue I decided to follow next simple markup:
@@ -21,8 +21,9 @@ Service which simulates Producer server. Responsibility - add messages to Queue.
 Service which simulates LoadBalancer server. Responsibility - send messages to free Consumers in Auto Scaling Group of instances.
 
 #### Queue
-Storage of messages for Producer and LoadBalancer which simulates Message Broker for the system. It is saved into var/queue.csv file. 
-Queue has limited size, that is set in app/config.ini. If size is exceeded, system loosing old messages.
+Storage of messages for Producer and LoadBalancer which simulates Message Broker for the system. Message is removed from Queue after it picked up by LoadBalancer immediately.
+Queue is saved into var/queue.csv file. 
+It has limited size, that is set in app/config.ini. If size is exceeded, system loosing old messages.
 
 #### Auto Scaling Group
 Collection of Consumer instances, responsible for creation of new necessary instances and destroying unnecessary instances. Maximum number of instances is limited anc can be set in app/config.ini
