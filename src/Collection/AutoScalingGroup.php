@@ -64,4 +64,16 @@ class AutoScalingGroup
         return null;
     }
 
+    /**
+     *
+     */
+    public function flush()
+    {
+        foreach ($this->consumers as $consumer) {
+            if ($consumer->checkIfFree()) {
+                unset($this->consumers[$consumer->getId()]);
+            }
+        }
+    }
+
 }

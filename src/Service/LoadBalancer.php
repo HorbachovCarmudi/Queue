@@ -5,6 +5,8 @@ namespace Service;
 use Collection\AutoScalingGroup;
 use Entity\Consumer;
 use Entity\Message;
+use Collection\Queue;
+use Repository\QueueFile;
 
 /**
  * Class LoadBalancer
@@ -27,9 +29,25 @@ final class LoadBalancer
     }
 
     /**
+     * @param QueueFile $queueFile
+     * @param Queue $queue
+     */
+    public function proceedQueue(QueueFile $queueFile, Queue $queue)
+    {
+        $queueFile->get($queue);
+
+        while ($queue->count()) {
+            $this->runMessage($queue->bottom());
+            $queue = $queueFile->dequeue($queue);
+        }
+
+        $this->instanceGroup->flush();
+    }
+
+    /**
      * @param Message $message
      */
-    public function runMessage(Message $message)
+    private function runMessage(Message $message)
     {
         $consumer = $this->instanceGroup->getFreeConsumer();
         if (!$consumer) {
