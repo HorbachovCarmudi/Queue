@@ -6,7 +6,7 @@ If desired solution should be distributed with separate docker containers create
 
 Unfortunately, during this weekend I had no chance to check simulation running on other machines, so if there are any troubles with checking it, don't hesitate to contact me.
 
-## Solutuion Description
+## Solution Description
 In due to simulate a system of a producer and a group of auto-scaled consumers connected by a queue I decided to follow next simple markup:
 ![markup](markup.jpg)
 
