@@ -9,15 +9,17 @@ use Service\ConfigReader;
 require_once('vendor/autoload.php');
 define('CONFIG_PATH', dirname(__FILE__) . '/app/config.ini');
 
+Logger::configure('app/logger.xml');
+
 $balancer = new LoadBalancer(
-    new AutoScalingGroup(ConfigReader::get('scaled_group_max_size'))
+    new AutoScalingGroup(ConfigReader::get('scaled_group_max_size')),
+    new Queue(ConfigReader::get('queue_max_size'))
 );
 
-$queue = new Queue(ConfigReader::get('queue_max_size'));
 $repo = new QueueFile(ConfigReader::get('queue_storage_filename'));
 
 $simulateRunning = true;
 while ($simulateRunning) {
-    $balancer->proceedQueue($repo, $queue);
+    $balancer->proceedQueue($repo);
     sleep('1');
 }

@@ -7,6 +7,7 @@ use Entity\Consumer;
 use Entity\Message;
 use Collection\Queue;
 use Repository\QueueFile;
+use Logger;
 
 /**
  * Class LoadBalancer
@@ -19,29 +20,45 @@ final class LoadBalancer
      */
     private $instanceGroup;
 
+
+    /**
+     * @var Queue
+     */
+    private $queue;
+
     /**
      * LoadBalancer constructor.
      * @param AutoScalingGroup $group
+     * @param Queue $queue
      */
-    public function __construct(AutoScalingGroup $group)
+    public function __construct(AutoScalingGroup $group, Queue $queue)
     {
         $this->instanceGroup = $group;
+        $this->queue = $queue;
     }
 
     /**
      * @param QueueFile $queueFile
-     * @param Queue $queue
      */
-    public function proceedQueue(QueueFile $queueFile, Queue $queue)
+    public function proceedQueue(QueueFile $queueFile)
     {
-        $queueFile->get($queue);
+        $queueFile->get($this->queue);
+        $this->logState();
 
-        while ($queue->count()) {
-            $this->runMessage($queue->bottom());
-            $queue = $queueFile->dequeue($queue);
+        while ($this->queue->count()) {
+            $this->runMessage($this->queue->bottom());
+            $this->queue = $queueFile->dequeue($this->queue);
         }
 
         $this->instanceGroup->flush();
+    }
+
+    private function logState()
+    {
+        Logger::getLogger("output")->info(
+            'Queue size: ' . $this->queue->count()
+            . ' | Instances running: ' . $this->instanceGroup->getCount()
+        );
     }
 
     /**
@@ -63,7 +80,7 @@ final class LoadBalancer
      */
     private function simulateWaiting(Message $message)
     {
-        echo ' - waiting for free instance with message: ' . $message->getId() . "\n";
+        $this->logState();
         sleep(1);
     }
 
@@ -73,7 +90,6 @@ final class LoadBalancer
      */
     private function simulateSubmit(Message $message, Consumer $consumer)
     {
-        echo 'Starting with message: ' . $message->getId() . ' on instance ' . $consumer->getId() . "\n";
         $consumer->proceed($message);
     }
 }
