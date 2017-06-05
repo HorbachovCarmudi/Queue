@@ -6,7 +6,7 @@ namespace Entity;
  * Class Message
  * @package Entity
  */
-class Message
+final class Message
 {
     /**
      * @var int

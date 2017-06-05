@@ -7,7 +7,7 @@ use Entity\Message;
 /**
  * Class Queue
  */
-final class Queue extends \SplQueue
+class Queue extends \SplQueue
 {
     /**
      * @var integer
