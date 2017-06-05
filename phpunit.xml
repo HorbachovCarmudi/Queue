@@ -1,4 +1,4 @@
-<phpunit bootstrap="vendor/autoload.php" strict="true" verbose="true">
+<phpunit bootstrap="tests/init.php" strict="true" verbose="true">
     <testsuite name="queue">
         <directory>tests</directory>
     </testsuite>

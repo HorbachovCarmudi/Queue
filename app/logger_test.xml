@@ -1,0 +1,23 @@
+<configuration xmlns="http://logging.apache.org/log4php/">
+    <appender name="output" class="LoggerAppenderFile">
+        <layout class="LoggerLayoutPattern">
+            <param name="conversionPattern"  value="%date{H:i:s} %-5level%msg%n" />
+        </layout>
+        <param name="file" value="var/output_test.log" />
+        <param name="append" value="false" />
+    </appender>
+    <appender name="consumer" class="LoggerAppenderFile">
+        <layout class="LoggerLayoutPattern">
+            <param name="conversionPattern"  value="%date{H:i:s} %-5level%msg%n" />
+        </layout>
+        <param name="file" value="var/consumer_test.log" />
+        <param name="append" value="false" />
+    </appender>
+    <logger name="output">
+        <appender_ref ref="output" />
+    </logger>
+    <logger name="consumer">
+        <appender_ref ref="consumer" />
+    </logger>
+</configuration>
+

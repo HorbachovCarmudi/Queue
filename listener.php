@@ -7,9 +7,10 @@ use Service\LoadBalancer;
 use Service\ConfigReader;
 use Service\DependencyContainer;
 
+set_time_limit(0);
 require_once('vendor/autoload.php');
-define('CONFIG_PATH', dirname(__FILE__) . '/app/config.ini');
 
+define('CONFIG_PATH', dirname(__FILE__) . '/app/config.ini');
 Logger::configure(ConfigReader::get('log_config'));
 
 $dependencyContainer = new DependencyContainer();

@@ -3,6 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use Collection\AutoScalingGroup;
 use Entity\Message;
+use Service\DependencyContainer;
 
 /**
  * Class AutoScalingGroup
@@ -13,7 +14,7 @@ final class AutoScalingGroupTest extends TestCase
     public function testConstruct()
     {
         $groupSize = 2;
-        $group = new AutoScalingGroup($groupSize);
+        $group = new AutoScalingGroup($groupSize, new DependencyContainer());
 
         $class = new ReflectionClass('Collection\AutoScalingGroup');
         $property = $class->getProperty('maxSize');
@@ -25,7 +26,7 @@ final class AutoScalingGroupTest extends TestCase
     public function testAddConsumer()
     {
         $groupSize = 2;
-        $group = new AutoScalingGroup($groupSize);
+        $group = new AutoScalingGroup($groupSize, new DependencyContainer());
 
         $class = new ReflectionClass('Collection\AutoScalingGroup');
         $method = $class->getMethod('addConsumer');
@@ -40,7 +41,7 @@ final class AutoScalingGroupTest extends TestCase
     public function testGetFreeConsumer()
     {
         $groupSize = 3;
-        $group = new AutoScalingGroup($groupSize);
+        $group = new AutoScalingGroup($groupSize, new DependencyContainer());
 
         $consumer = $group->getFreeConsumer();
         $consumer->proceed(new Message(1,1));
