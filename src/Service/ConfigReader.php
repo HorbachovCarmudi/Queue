@@ -6,7 +6,7 @@ namespace Service;
  * Class ConfigReader
  * @package Service
  */
-final class ConfigReader
+class ConfigReader
 {
     /**
      * @var string

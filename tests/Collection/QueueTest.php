@@ -38,4 +38,18 @@ final class QueueTest extends TestCase
 
         $this->assertEquals($testSize, $property->getValue($queue));
     }
+
+    public function testTruncate()
+    {
+        $testSize = 2;
+        $first = new Message(1, 1);
+        $second = new Message(2, 1);
+
+        $queue = new Queue($testSize);
+        $queue->enqueue($first);
+        $queue->enqueue($second);
+
+        $queue->truncate();
+        $this->assertEquals(0, $queue->count());
+    }
 }

@@ -12,7 +12,6 @@ use Service\DependencyContainer;
  */
 class QueueFile
 {
-
     /**
      * @var DependencyContainer
      */
@@ -27,7 +26,6 @@ class QueueFile
      * @var Resource|null
      */
     private $storage;
-
 
     /**
      * QueueFile constructor.

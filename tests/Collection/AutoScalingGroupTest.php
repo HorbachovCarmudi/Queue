@@ -55,4 +55,20 @@ final class AutoScalingGroupTest extends TestCase
         $consumer->proceed(new Message(1,1));
         $this->assertEquals(2, $group->getCount());
     }
+
+    public function testFlush()
+    {
+        $groupSize = 3;
+        $group = new AutoScalingGroup($groupSize, new DependencyContainer());
+
+        $consumer = $group->getFreeConsumer();
+        $consumer->proceed(new Message(1,1));
+        $this->assertEquals(1, $group->getCount());
+
+        $consumer = $group->getFreeConsumer();
+        $this->assertEquals(2, $group->getCount());
+
+        $group->flush();
+        $this->assertEquals(1, $group->getCount());
+    }
 }
