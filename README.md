@@ -1,3 +1,11 @@
+###Remark
+This is simple not-distributed solution. It's quite abstract, but I hope it's displaying requested in task infrastructure. I tried to make simulation as clearly as possible remembering restrictions about forking and multi-threading of processes.
+I skipped not necessary part of the task, but consider that current solution not requiring many changes to implement it.
+
+If desired solution should be distributed with separate docker containers created dynamically, it also can be done, in one week.
+
+Unfortunately, during this weekend I had no chance to check simulation running on other machines, so if there are any troubles with checking it, don't hesitate to contact me.
+
 ## Solutuion Description
 In due to simulate a system of a producer and a group of auto-scaled consumers connected by a queue I decided to follow next simple markup:
 ![markup](markup.jpg)
@@ -30,6 +38,9 @@ Script for simulation of publishing messages to Queue via Producer. Can be run a
 #### listener.php 
 Script for simulation of work Server with LoadBalancer. It runs continuously, checking if we have new messages in Queue and transfering them to LoadBalancer
 
+### What is missed
+* integration test to cover services and repository
+* support of multiple queues (can be done by modification only in publisher.php and listener.php)
 
 ## Running Simulation
 
@@ -53,6 +64,12 @@ git checkout develop
 ```sh 
 composer install
 ```
+### Configuration
+
+Configuration is saved in app/config.ini. Important settings are:
+
+* queue_max_size - limiting number of messages saved in Queue. System removing old messages if this number is exceeded
+* scaled_group_max_size - maximum number of instances which can be created for proceeding of messages in the same time
 
 ### Basic Usage
 ![console_example](console.jpg)
