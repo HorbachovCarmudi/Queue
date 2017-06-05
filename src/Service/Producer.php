@@ -4,7 +4,7 @@ namespace Service;
 
 use Collection\Queue;
 use Entity\Message;
-use Repository\QueueFileRepository;
+use Repository\QueueFile;
 
 /**
  * Class Producer
@@ -13,7 +13,7 @@ use Repository\QueueFileRepository;
 final class Producer
 {
     /**
-     * @var QueueFileRepository
+     * @var QueueFile
      */
     private $storage;
 
@@ -24,10 +24,10 @@ final class Producer
 
     /**
      * Producer constructor.
-     * @param QueueFileRepository $storage
+     * @param QueueFile $storage
      * @param Queue $queue
      */
-    public function __construct(QueueFileRepository $storage, Queue $queue)
+    public function __construct(QueueFile $storage, Queue $queue)
     {
         $this->storage = $storage;
         $this->queue = $queue;

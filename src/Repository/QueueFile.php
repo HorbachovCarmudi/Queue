@@ -6,10 +6,10 @@ use Collection\Queue;
 use Entity\Message;
 
 /**
- * Class QueueFileRepository
+ * Class QueueFile
  * @package Repository
  */
-class QueueFileRepository
+class QueueFile
 {
     /**
      * @var string
@@ -48,8 +48,9 @@ class QueueFileRepository
 
     /**
      * @param Queue $queue
+     * @return Queue
      */
-    public function put(Queue $queue)
+    public function put(Queue $queue) : Queue
     {
         $queueSize = $queue->count();
 
@@ -69,6 +70,7 @@ class QueueFileRepository
         }
 
         $this->finishTransaction();
+        return $this->get($queue);
     }
 
     /**

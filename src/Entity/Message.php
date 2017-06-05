@@ -9,7 +9,7 @@ namespace Entity;
 final class Message
 {
     /**
-     * @var int
+     * @var string
      */
     private $id;
 
@@ -20,19 +20,19 @@ final class Message
 
     /**
      * Message constructor
-     * @param $id int
+     * @param $id string
      * @param $secondsToExecute int
      */
-    public function __construct(int $id, int $secondsToExecute)
+    public function __construct(string $id, int $secondsToExecute)
     {
         $this->id = $id;
         $this->secondsToExecute = $secondsToExecute;
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getId() : int
+    public function getId() : string
     {
         return $this->id;
     }
