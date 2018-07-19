@@ -1,0 +1,16 @@
+{
+  "require": {
+    "apache/log4php": "2.3.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Entity\\": "src/Entity/",
+      "Service\\": "src/Service/",
+      "Collection\\": "src/Collection/",
+      "Repository\\": "src/Repository/"
+    }
+  }
+}

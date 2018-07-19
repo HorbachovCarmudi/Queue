@@ -1,0 +1,15 @@
+<phpunit bootstrap="tests/init.php" strict="true" verbose="true">
+    <testsuite name="queue">
+        <directory>tests</directory>
+    </testsuite>
+    <logging>
+        <log type="coverage-html" target="tests/reports/coverage" />
+        <log type="junit" target="tests/reports/unit.xml" />
+    </logging>
+    <filter>
+        <whitelist>
+            <directory>src/Entity</directory>
+            <directory>src/Collection</directory>
+        </whitelist>
+    </filter>
+</phpunit>
